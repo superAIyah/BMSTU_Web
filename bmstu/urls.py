@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/', include("bmstu_lab.urls")), # связываем url проекта и приложения
     path('', views.GetOrders),
-    path('order/<int:id>/', views.GetOrder, name='order_url'),
+    path('order/<int:id>/', views.GetOrder, name='order_url'), # ссылка url, которая показывает статьи
 ]

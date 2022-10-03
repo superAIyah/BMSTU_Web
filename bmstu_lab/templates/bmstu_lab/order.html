@@ -1,7 +1,12 @@
 {% extends 'bmstu_lab/base.html' %}
-
+{% load static %}
 {% block title %}Заказ №{{ data.id }}{% endblock %}
 
 {% block content %}
-    <div>Информация о заказе №{{ data.id }}</div>
+    <div> Information about articles in the category </div>
+    {% for article in data %}
+        <li>{{article.name}}</li>
+        <img src='{% static article.img %}' height="380" width="500">
+        <p>Author : {{article.author}}</p>
+    {% endfor %}
 {% endblock %}

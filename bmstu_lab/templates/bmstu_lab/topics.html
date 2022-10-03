@@ -5,7 +5,7 @@
 {% block content %}
 <ul>
     {% for order in data.orders %}
-        {% include 'bmstu_lab/order_element.html' with elem=order %}
+        {% include 'bmstu_lab/topic_element.html' with elem=order %}
     {% empty %}
         <li>Список пуст</li>
     {% endfor %}

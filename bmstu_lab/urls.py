@@ -2,6 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("", views.hello, name="hello") ,# default view for this application
-    path("fedor", views.fedor, name="fedor" )
+    path('', views.GetArticles),
+    path('order/<int:id>/', views.GetArticle, name='order_url'), # ссылка url, которая показывает статьи
 ]

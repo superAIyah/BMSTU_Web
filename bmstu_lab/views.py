@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from datetime import date
 
-class Data:
+class Data: # класс с данными (замена БД)
     def __init__(self):
         self.titles = [
             {'title': 'Physics', 'id': 1},
@@ -22,7 +22,7 @@ class Data:
     def get_titles(self):
         return self.titles
 
-    def get_articles_theme(self, num):
+    def get_articles_theme(self, num): # Возвращает массив словарей
         data = []
         num -= 1
         for i in range(len(self.articles_for_category[num])):
@@ -34,26 +34,11 @@ class Data:
 
 mock_db = Data()
 
-def hello(request): # Smth that user want might to see
-    return render(request, 'bmstu_lab/index.html', { 'data' : {
-        'current_date': date.today(),
-        'list': ['python', 'django', 'html']
-    }})
-
-def GetOrders(request):
-    return render(request, 'bmstu_lab/orders.html', {'data' : {
+def GetArticles(request):
+    return render(request, 'bmstu_lab/topics.html', {'data' : {
         'current_date': date.today(),
         'orders': mock_db.get_titles()
     }})
 
-def GetOrder(request, id):
-    ids_category = [1, 2, 3]
-    articles_for_category = [["Physics mechanics", "Physics quantum"],
-                             ["Linear algebra", "Math for students"],
-                             ["CNN for detection", "Function activation"]]
-    articles_by_theme = dict(zip(ids_category, articles_for_category))
-    print(mock_db.get_articles_theme(id))
-    return render(request, 'bmstu_lab/order.html', {'data' :  mock_db.get_articles_theme(id)})
-
-def fedor(request): #
-    return HttpResponse("Hello Fedor")
+def GetArticle(request, id):
+    return render(request, 'bmstu_lab/articles.html', {'data' :  mock_db.get_articles_theme(id)})

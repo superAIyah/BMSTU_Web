@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from datetime import date
-
+# View in django, controller in MVC
 class Data: # класс с данными (замена БД)
     def __init__(self):
         self.titles = [
@@ -33,8 +33,11 @@ class Data: # класс с данными (замена БД)
 
 
 mock_db = Data()
+from .models import Autors
 
 def GetArticles(request):
+    autors = Autors.objects.all()
+
     return render(request, 'bmstu_lab/topics.html', {'data' : {
         'current_date': date.today(),
         'orders': mock_db.get_titles()

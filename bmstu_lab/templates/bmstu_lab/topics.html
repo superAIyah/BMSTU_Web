@@ -4,8 +4,8 @@
 
 {% block content %}
 <ul>
-    {% for order in data.orders %}
-        {% include 'bmstu_lab/topic_element.html' with elem=order %}
+    {% for topic in data %}
+        {% include 'bmstu_lab/topic_element.html' with elem=topic %}
     {% empty %}
         <li>Список пуст</li>
     {% endfor %}

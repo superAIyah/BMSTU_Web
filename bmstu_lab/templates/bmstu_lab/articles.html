@@ -5,8 +5,13 @@
 {% block content %}
     <div> Information about articles in the category </div>
     {% for article in data %}
-        <li>{{article.name}}</li>
-        <img src='{% static article.img %}' height="380" width="500">
-        <p>Author : {{article.author}}</p>
+        <hr>
+        <li>{{article.title}}</li>
+        <li>{{ article.link }}</li>
+        <img src='{% static article.photo %}' height="380" width="500">
+        <li>Autors:</li>
+        {% for autor in article.autor_id.all %}
+            <p>{{autor}}</p>
+        {% endfor %}
     {% endfor %}
 {% endblock %}

@@ -33,15 +33,14 @@ class Data: # класс с данными (замена БД)
 
 
 mock_db = Data()
-from .models import Autors
+from .models import Autors, Articles, Subjects
 
 def GetArticles(request):
-    autors = Autors.objects.all()
+    subjects = Subjects.objects.all()
 
-    return render(request, 'bmstu_lab/topics.html', {'data' : {
-        'current_date': date.today(),
-        'orders': mock_db.get_titles()
-    }})
+    return render(request, 'bmstu_lab/topics.html', {'data' : subjects})
 
 def GetArticle(request, id):
-    return render(request, 'bmstu_lab/articles.html', {'data' :  mock_db.get_articles_theme(id)})
+    articles_by_group = Articles.objects.filter(subject_id=id)
+
+    return render(request, 'bmstu_lab/articles.html', {'data' :  articles_by_group})

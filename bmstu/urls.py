@@ -18,10 +18,23 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from bmstu_lab import views
+from bmstu_lab.views import *
+from rest_framework import routers
+
+router_autors = routers.SimpleRouter()
+router_autors.register(r'autors', AutorsViewSet)
+router_subjects = routers.SimpleRouter()
+router_subjects.register(r'subjects', SubjectsViewSet)
+router_articles = routers.SimpleRouter()
+router_articles.register(r'articles', ArticlesViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("bmstu_lab.urls")), # связываем url проекта и приложения
+
+    path("api/", include(router_autors.urls)),
+    path("api/", include(router_subjects.urls)),
+    path("api/", include(router_articles.urls))
 ]
 
 if settings.DEBUG:

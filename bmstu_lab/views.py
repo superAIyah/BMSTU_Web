@@ -23,17 +23,18 @@ class SubjectsViewSet(viewsets.ModelViewSet):
     serializer_class = SubjectSerializer
 
 class ArticlesViewSet(viewsets.ModelViewSet):
-    queryset = Articles.objects.all()
     serializer_class = ArticleSerializer
+    queryset = Articles.objects.all()
 
-# class SubjectAPIView(generics.ListCreateAPIView):
-#     queryset = Subjects.objects.all()
-#     serializer_class = SubjectSerializer
-#
-# class AutorsAPIView(generics.ListCreateAPIView):
-#     queryset = Autors.objects.all()
-#     serializer_class = AutorSerializer
-#
-# class ArticlesAPIView(generics.ListCreateAPIView):
-#     queryset = Articles.objects.all()
-#     serializer_class = ArticleSerializer
+    def get_queryset(self):
+        queryset = Articles.objects.all()
+        min_price = self.request.query_params.get("min_price")
+        max_price = self.request.query_params.get("max_price")
+        text = self.request.query_params.get("text")
+        if min_price is not None and max_price is not None and text is not None:
+            filtered_queryset = []
+            for query in queryset:
+                if query.price >= int(min_price) and query.price <= int(max_price) and text in query.title:
+                    filtered_queryset.append(query)
+            return filtered_queryset
+        return queryset

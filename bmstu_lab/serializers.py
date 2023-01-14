@@ -15,4 +15,5 @@ class AutorSerializer(serializers.ModelSerializer):
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Articles
-        fields = ('title', 'link', "autor_id", "subject_id")
+        #fields = ('title', 'link', "autor_id", "photo", "subject_id", 'photo_link', 'subject', 'price', "id", "cart")
+        fields = '__all__'

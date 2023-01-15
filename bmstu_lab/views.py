@@ -34,7 +34,9 @@ class ArticlesViewSet(viewsets.ModelViewSet):
         if min_price is not None and max_price is not None and text is not None:
             filtered_queryset = []
             for query in queryset:
-                if query.price >= int(min_price) and query.price <= int(max_price) and text in query.title:
+                if query.price >= int(min_price) and \
+                        query.price <= int(max_price) and \
+                        (text == "" or text in query.title):
                     filtered_queryset.append(query)
             return filtered_queryset
         return queryset

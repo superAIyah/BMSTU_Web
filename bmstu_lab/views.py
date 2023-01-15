@@ -36,7 +36,7 @@ class ArticlesViewSet(viewsets.ModelViewSet):
             for query in queryset:
                 if query.price >= int(min_price) and \
                         query.price <= int(max_price) and \
-                        (text == "" or text in query.title):
+                        (text == "" or text.lower() in query.title.lower()):
                     filtered_queryset.append(query)
             return filtered_queryset
         return queryset

@@ -4,6 +4,56 @@ from rest_framework import generics, viewsets
 
 from .models import Autors, Articles, Subjects
 from .serializers import ArticleSerializer, SubjectSerializer, AutorSerializer
+### PART FROM VIDEO
+### PART FROM VIDEO
+### PART FROM VIDEO
+from django.db import models
+from django.contrib.auth.models import User
+from rest_framework.views import APIView
+from rest_framework import permissions
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
+from django.utils.decorators import method_decorator
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=255, default='')
+    last_name = models.CharField(max_length=255, default='')
+    phone = models.CharField(max_length=20, default='')
+    city = models.CharField(max_length=20, default='')
+
+    def __str__(self):
+        return self.first_name
+
+@method_decorator(csrf_protect, name='dispatch')
+class SignupView(APIView):
+    permission_classes = (permissions.AllowAny, )
+
+    def post(self, request, format=None):
+        print("WE ARE HERE")
+        data = self.request.data
+        username = data['username']
+        password = data['password']
+        re_password  = data['re_password']
+        try:
+            if password == re_password:
+                if User.objects.filter(username=username).exists():
+                    return Response({ 'error': 'Username already exists' })
+                else:
+                    user = User.objects.create_user(username=username, password=password)
+                    user = User.objects.get(id=user.id)
+                    return Response({ 'success': 'User created successfully' })
+            else:
+                return Response({ 'error': 'Passwords do not match' })
+        except Exception as e:
+                return Response({ 'error': 'Something went wrong when registering account' })
+
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+class GetCSRFToken(APIView):  # Get our csrf cookie in application
+    permission_classes = (permissions.AllowAny, )
+    def get(self, request, format=None):
+        return Response({ 'success': 'CSRF cookie set' })
 
 def GetArticles(request):
     subjects = Subjects.objects.all()

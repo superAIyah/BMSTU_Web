@@ -1,7 +1,8 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from .views import *
 
 urlpatterns = [
-    path('', views.GetArticles),
-    path('order/<int:id>/', views.GetArticle, name='order_url'), # ссылка url, которая показывает статьи
+    path('api/register/', SignupView.as_view()),
+    path('api/csrf_cookie/', GetCSRFToken.as_view())
 ]

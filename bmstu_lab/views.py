@@ -17,6 +17,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
 from .models import UserProfile
 from .serializers import UserProfileSerializer
+from django.views.decorators.csrf import csrf_exempt
 
 
 class GetUserProfileView(APIView):
@@ -124,11 +125,13 @@ class GetCSRFToken(APIView):  # Get our csrf cookie in application
 
 
 def GetArticles(request):
+    permission_classes = (permissions.AllowAny,)
     subjects = Subjects.objects.all()
     return render(request, 'bmstu_lab/topics.html', {'data': subjects})
 
 
 def GetArticle(request, id):
+    permission_classes = (permissions.AllowAny,)
     articles_by_group = Articles.objects.filter(subject_id=id)
     return render(request, 'bmstu_lab/articles.html', {'data': articles_by_group})
 
@@ -143,7 +146,6 @@ class SubjectsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
     queryset = Subjects.objects.all()
     serializer_class = SubjectSerializer
-
 
 class ArticlesViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
